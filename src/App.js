@@ -2,44 +2,29 @@ import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import io from 'socket.io-client';
-
-
-const socket = io("https://52.207.166.31:4000/")
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import SessionWindow from './components/SessionWindow';
+import ConnectionManager from './components/ConnectionManager';
 
 
 function App() {
 
-  useEffect(() => {
-    socket.emit("hello")
+    return (
+        <Router>
+            <div className="App">
+                <Switch>
+                    <Route exact path="/">
+                        LOGIN FORM
+                    </Route>
 
-    navigator.mediaDevices.getUserMedia({audio: true, video:true}).then(stream => {
-      console.log(stream)
-    })
-
-    socket.on("world", data => {
-      console.log(data)
-    })
-  }, [])
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+                    <Route exact path="/session/:sessionID">
+                        <ConnectionManager />
+                        <SessionWindow  />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
