@@ -13,6 +13,10 @@ function App() {
   useEffect(() => {
     socket.emit("hello")
 
+    navigator.mediaDevices.getUserMedia({audio: true, video:true}).then(stream => {
+      console.log(stream)
+    })
+
     socket.on("world", data => {
       console.log(data)
     })
