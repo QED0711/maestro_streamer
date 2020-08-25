@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-secure": "HTTPS=true npm start",
     "create-state": "node node_modules/multistate/cli.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

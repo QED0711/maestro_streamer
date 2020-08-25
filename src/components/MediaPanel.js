@@ -3,12 +3,16 @@ import { mainContext } from '../state/main/mainProvider';
 
 const MediaPanel = () => {
 
-    const {state} = useContext(mainContext);
+    const { state, setters } = useContext(mainContext);
 
     const renderVideos = (streams) => {
+        console.log(streams)
         return streams.map(stream => {
             return (
-                <video key={stream.id} id={stream.id}></video>
+                <React.Fragment key={stream.id}>
+                    <p>{stream.id}</p>
+                    <video key={stream.id} id={stream.id}></video>
+                </React.Fragment>
             )
         })
 
@@ -16,18 +20,29 @@ const MediaPanel = () => {
     }
 
     useEffect(() => {
+        const addStreamsToVideos = () => {
+            let video;
+            state.streams.forEach(stream => {
+                video = document.getElementById(stream.id)
+                console.log(video.paused)
+                if (!video.paused) return // break out early
 
-        let video;
-        state.streams.forEach(stream => {
-            video = document.getElementById(stream.id)
-            video.muted = true
-            video.controls = "controls"
-            video.srcObject = stream;
+                video.muted = true
+                video.controls = "controls"
+                video.srcObject = stream;
 
-            video.addEventListener("loadedmetadata", () => {
-                video.play();
+                video.addEventListener("loadedmetadata", () => {
+                    video.play();
+                })
+
+                video.addEventListener("mousedown", e => {
+                    e.preventDefault()
+                    if(e.altKey) setters.removeStream(stream.id)
+                })
             })
-        })
+        }
+
+        addStreamsToVideos()
 
     }, [state.streams])
 

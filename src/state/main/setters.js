@@ -1,16 +1,25 @@
-import state from "./state";
-
 const setters = {
 
     appendStream(stream){
-        console.log(stream)
-        const streams = [...this.state.streams]
+        this.setStateMaster(prevState => {
+            const streams = [...prevState.streams]
+            const streamIDs = streams.map(stream => stream.id)
+            // const streams = [...this.state.streams]
+            if(!streamIDs.includes(stream.id)) streams.push(stream)
 
-        streams.push(stream)
-
-        console.log(streams)
-        this.setState({streams})
+            return {streams}
+        })
     },
+
+    removeStream(streamID){
+        this.setStateMaster(prevState => {
+
+            let streams = [...prevState.streams]
+            streams = streams.filter(stream => streamID !== stream.id)
+
+            return {streams}
+        })
+    }
 
 }
 
