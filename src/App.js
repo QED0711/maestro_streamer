@@ -11,7 +11,7 @@ import ConfigPanel from './components/ConfigPanel';
 function App() {
 
     return (
-        <Router /* basename={process.env.PUBLIC_URL + '/'} */>
+        <Router basename={process.env.PUBLIC_URL + '/'}>
             <div className="App">
                 <Switch>
                     <Route exact path="/">
@@ -22,7 +22,7 @@ function App() {
                     <Route exact path="/session/:sessionID">
                         <ConnectionManager />
                         <ConfigPanel />
-                        <SessionWindow  />
+                        <SessionWindow />
                     </Route>
                 </Switch>
             </div>
