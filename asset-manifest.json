@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/maestro_streamer/static/css/main.f326a5a3.chunk.css",
-    "main.js": "/maestro_streamer/static/js/main.f40cd62b.chunk.js",
-    "main.js.map": "/maestro_streamer/static/js/main.f40cd62b.chunk.js.map",
+    "main.js": "/maestro_streamer/static/js/main.3da84ab3.chunk.js",
+    "main.js.map": "/maestro_streamer/static/js/main.3da84ab3.chunk.js.map",
     "runtime-main.js": "/maestro_streamer/static/js/runtime-main.3b8297a5.js",
     "runtime-main.js.map": "/maestro_streamer/static/js/runtime-main.3b8297a5.js.map",
     "static/js/2.c54b7572.chunk.js": "/maestro_streamer/static/js/2.c54b7572.chunk.js",
     "static/js/2.c54b7572.chunk.js.map": "/maestro_streamer/static/js/2.c54b7572.chunk.js.map",
     "index.html": "/maestro_streamer/index.html",
-    "precache-manifest.231d70d99c653bc9d6451c9ebf90ee51.js": "/maestro_streamer/precache-manifest.231d70d99c653bc9d6451c9ebf90ee51.js",
+    "precache-manifest.2f7c4776699986f4c343f29f5378d041.js": "/maestro_streamer/precache-manifest.2f7c4776699986f4c343f29f5378d041.js",
     "service-worker.js": "/maestro_streamer/service-worker.js",
     "static/css/main.f326a5a3.chunk.css.map": "/maestro_streamer/static/css/main.f326a5a3.chunk.css.map",
     "static/js/2.c54b7572.chunk.js.LICENSE.txt": "/maestro_streamer/static/js/2.c54b7572.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.3b8297a5.js",
     "static/js/2.c54b7572.chunk.js",
     "static/css/main.f326a5a3.chunk.css",
-    "static/js/main.f40cd62b.chunk.js"
+    "static/js/main.3da84ab3.chunk.js"
   ]
 }
