@@ -11,7 +11,7 @@ import ConfigPanel from './components/ConfigPanel';
 function App() {
 
     return (
-        <Router>
+        <Router basename={"/"}>
             <div className="App">
                 <Switch>
                     <Route exact path="/">

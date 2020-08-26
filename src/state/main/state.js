@@ -3,7 +3,7 @@ const state = {
 
     
     sessionAuthorization: true,
-    ring: true,
+    ring: false,
     
     userID: null,
     connectedUsers: [],
