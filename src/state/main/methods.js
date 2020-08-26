@@ -1,6 +1,7 @@
 
 const methods = {
 
+
     getRing(){
         return this.state.ring;
     },

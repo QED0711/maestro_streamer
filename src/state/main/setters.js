@@ -27,6 +27,12 @@ const setters = {
             connectedUsers.push(userID)
             return {connectedUsers}
         })
+    },
+
+    toggleRing(){
+        this.setStateMaster(prevState => {
+            return {ring: !prevState.ring}
+        })
     }
 
 }

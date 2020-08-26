@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SessionWindow from './components/SessionWindow';
 import ConnectionManager from './components/ConnectionManager';
+import ConfigPanel from './components/ConfigPanel';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
 
                     <Route exact path="/session/:sessionID">
                         <ConnectionManager />
+                        <ConfigPanel />
                         <SessionWindow  />
                     </Route>
                 </Switch>

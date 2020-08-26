@@ -142,10 +142,13 @@ const ConnectionManager = () => {
         /////////////////////////////////////////////////////        
         */
 
-        const ringInterval = setInterval(() => {
-            const userID = methods.getUserID()
-            userID ? socket.emit("ring", {sessionID, userID}) : clearInterval(ringInterval);            
-        }, 3000)
+        // const ringInterval = setInterval(() => {
+        //     const userID = methods.getUserID()
+        //     const ring = methods.getRing();
+        //     if(userID){
+        //         ring ? socket.emit("ring", {sessionID, userID}) : clearInterval(ringInterval);            
+        //     }
+        // }, 3000)
 
     }, [])
 
