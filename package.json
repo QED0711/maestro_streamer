@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "start-secure": "HTTPS=true npm start",
     "create-state": "node node_modules/multistate/cli.js",
-    "build": "react-scripts build",
+    "build": "CI= react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
