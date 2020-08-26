@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import Peer from 'peerjs'
 
 // ========================= STATE =========================
@@ -7,17 +7,22 @@ import { mainContext } from '../state/main/mainProvider';
 
 // ========================= HELPERS =========================
 import socket from '../helpers/socket';
+import parseQueryString from '../helpers/parseQueryString'
 
 // ========================= CONFIG =========================
 import config from '../config.json'
 
 const ConnectionManager = () => {
 
-    const { state, setters } = useContext(mainContext);
-    const { sessionID } = useParams()
+    const { state, setters, methods } = useContext(mainContext);    
+    const { sessionID, name, location } = useParams()
+    
+    const queryParams = parseQueryString(window.location.search)
+    console.log(queryParams)
 
     useEffect(() => {
 
+        // 1. Peer initialization
         const peer = new Peer(undefined, {
             path: "/peerjs",
             host: config.server_host,
@@ -26,14 +31,18 @@ const ConnectionManager = () => {
             // debug: 3
         })
 
-        socket.emit("hello")
 
-        socket.on("world", data => {
-            console.log(data)
+        peer.on("open", id => {
+            setters.setUserID(id)
+            console.log({ id, peer })
+            console.log("PEER OPENING")
+            socket.emit("join-session", { sessionID, userID: id, part: "PART STAND-IN" })
         })
 
+
+        // 1. getting media devices
         navigator.mediaDevices.getUserMedia({
-            video: true,
+            video: queryParams.video === false ? false : true,
             audio: {
                 autoGainControl: false,
                 echoCancellation: false,
@@ -67,27 +76,34 @@ const ConnectionManager = () => {
                     // addVideoStream(video, userVideoStream)
                 })
 
-                call.on("close", () => {
-                    console.log("REMOVING")
-                    // video.parentElement.remove()
-                    // video.remove()
-                })
+                // call.on("close", () => {
+                //     console.log("REMOVING")
+                //     // video.parentElement.remove()
+                //     // video.remove()
+                // })
             })
 
             socket.on("user-connected", ({ userID, part }) => {
-                const call = peer.call(userID, stream)
                 
-                call.on("stream", userVideoStream => {
-                    setters.appendStream(userVideoStream)
-                    // addVideoStream(video, userVideoStream, part)
-                })
+                if(!methods.getConnectedUsers().includes(userID)){ // if we have not connected to this user already
+                    // 1. mark the user as seen
+                    setters.appendUser(userID);
 
-                call.on("close", () => {
-                    console.log("REMOVING")
-                    // video.parentElement.remove()
-                    // video.remove()
-                })
-                // connectToNewUser(userID, stream, part)
+                    // 2. call the user using their ID, and send them your stream
+                    const call = peer.call(userID, stream)
+                    console.log({call, stream})
+                    call.on("stream", userVideoStream => {
+                        setters.appendStream(userVideoStream)
+                        // addVideoStream(video, userVideoStream, part)
+                    })
+    
+                    call.on("close", () => {
+                        console.log("REMOVING")
+                        // video.parentElement.remove()
+                        // video.remove()
+                    })
+                    // connectToNewUser(userID, stream, part)
+                }
             })
 
             socket.on("data-requested", (data) => { // responds to data requests based on own stream id
@@ -118,19 +134,18 @@ const ConnectionManager = () => {
         })
 
 
-        peer.on("open", id => {
-            console.log("PEER OPENING")
-            socket.emit("join-session", { sessionID, userID: id, part: "PART STAND-IN" })
-        })
-
         /* 
         /////////////////////////////////////////////////////
         NOTES: Somewhere (maybe not in this component) there needs to be an interval that calls all users in the socket room.
         This interval should be triggered by a button press, and can be stopped by the same button press
         In this interval, if a call is not open, it halts there and tries again at the next interval until the call is open
-        /////////////////////////////////////////////////////
-        
+        /////////////////////////////////////////////////////        
         */
+
+        const ringInterval = setInterval(() => {
+            const userID = methods.getUserID()
+            userID ? socket.emit("ring", {sessionID, userID}) : clearInterval(ringInterval);            
+        }, 3000)
 
     }, [])
 

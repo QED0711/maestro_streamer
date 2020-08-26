@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { mainContext } from '../state/main/mainProvider';
 
+import "../css/media-panel.css"
+
 const MediaPanel = () => {
 
     const { state, setters } = useContext(mainContext);
@@ -9,10 +11,10 @@ const MediaPanel = () => {
         console.log(streams)
         return streams.map(stream => {
             return (
-                <React.Fragment key={stream.id}>
+                <div className="video-container" key={stream.id}>
                     <p>{stream.id}</p>
                     <video key={stream.id} id={stream.id}></video>
-                </React.Fragment>
+                </div>
             )
         })
 

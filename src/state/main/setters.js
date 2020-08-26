@@ -19,6 +19,14 @@ const setters = {
 
             return {streams}
         })
+    },
+
+    appendUser(userID){
+        this.setStateMaster(prevState => {
+            let connectedUsers = [...prevState.connectedUsers];
+            connectedUsers.push(userID)
+            return {connectedUsers}
+        })
     }
 
 }

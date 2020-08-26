@@ -1,7 +1,14 @@
 
 const state = {
+
+    
     sessionAuthorization: true,
-    streams: []
+    ring: true,
+    
+    userID: null,
+    connectedUsers: [],
+    streams: [],
+
 
 }
 
