@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cbacb7aa4ec34005e34338b41dcf1be3",
+    "revision": "fbba0243335b0e4c6223e43d31504a5c",
     "url": "/maestro_streamer/index.html"
   },
   {
