@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7175a3d72cebe4fc0d5f7caf9e41f2ea",
+    "revision": "cbacb7aa4ec34005e34338b41dcf1be3",
     "url": "/maestro_streamer/index.html"
   },
   {
-    "revision": "4b8b9a5429e044ab2596",
+    "revision": "9cf62dc8401966dc1001",
     "url": "/maestro_streamer/static/css/main.f326a5a3.chunk.css"
   },
   {
-    "revision": "d403e8741a18f84cd0fb",
-    "url": "/maestro_streamer/static/js/2.ac166cfa.chunk.js"
+    "revision": "40702022c26c8eb345c4",
+    "url": "/maestro_streamer/static/js/2.c54b7572.chunk.js"
   },
   {
     "revision": "b67bc97fd0dd67004287af4028afc1b1",
-    "url": "/maestro_streamer/static/js/2.ac166cfa.chunk.js.LICENSE.txt"
+    "url": "/maestro_streamer/static/js/2.c54b7572.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4b8b9a5429e044ab2596",
-    "url": "/maestro_streamer/static/js/main.5df996d9.chunk.js"
+    "revision": "9cf62dc8401966dc1001",
+    "url": "/maestro_streamer/static/js/main.f40cd62b.chunk.js"
   },
   {
     "revision": "c8094bb3dea95227f70e",
