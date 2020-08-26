@@ -40,7 +40,7 @@ const ConnectionManager = () => {
         })
 
 
-        // 1. getting media devices
+        // 2. getting media devices
         navigator.mediaDevices.getUserMedia({
             video: queryParams.video === false ? false : true,
             audio: {
@@ -51,7 +51,7 @@ const ConnectionManager = () => {
             }
         }).then(stream => {
 
-            setters.appendStream(stream) // this propagates down and adds video to dom
+            setters.appendStream(stream, "local") // this propagates down and adds video to dom
 
             // HANDLE UNLOAD
             // if the session the person who started the session leaves, these unload event handlers will inform other session members of their departure so they can clean up any stale user data.
@@ -108,7 +108,7 @@ const ConnectionManager = () => {
 
             socket.on("data-requested", (data) => { // responds to data requests based on own stream id
                 if (data.streamID === stream.id) {
-                    // socket.emit("data-response", { streamID: stream.id, part: PART })
+                    socket.emit("data-response", { streamID: stream.id, ...queryParams })
                 }
             })
 
@@ -117,8 +117,8 @@ const ConnectionManager = () => {
 
         // secondary scope
         socket.on("user-data-response", data => {
-            const header = document.getElementById(`header-${data.streamID}`)
-            // header.innerText = data.part
+            console.log({data})
+            setters.appendStreamData(data.streamID, data)
         })
 
         socket.on("user-disconnected", userID => {
@@ -142,13 +142,6 @@ const ConnectionManager = () => {
         /////////////////////////////////////////////////////        
         */
 
-        // const ringInterval = setInterval(() => {
-        //     const userID = methods.getUserID()
-        //     const ring = methods.getRing();
-        //     if(userID){
-        //         ring ? socket.emit("ring", {sessionID, userID}) : clearInterval(ringInterval);            
-        //     }
-        // }, 3000)
 
     }, [])
 

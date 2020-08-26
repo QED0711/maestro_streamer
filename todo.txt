@@ -1,6 +1,6 @@
 
 [] make users own audio muted to them, but audible to everyone else
-[] add call button that starts and stops a calling interval to enter the session
+[X] add call button that starts and stops a calling interval to enter the session
 [] add name and location video headers
 [] add video sizing params to string
 [] add sign in page where users enter the session token, their name, and location

@@ -7,7 +7,9 @@ const state = {
     
     userID: null,
     connectedUsers: [],
+    localStreamID: null,
     streams: [],
+    streamsData: {},
 
 
 }
