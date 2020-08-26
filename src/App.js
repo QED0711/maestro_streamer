@@ -11,11 +11,11 @@ import ConfigPanel from './components/ConfigPanel';
 function App() {
 
     return (
-        <Router basename={process.env.PUBLIC_URL + '/'}>
+        <Router /* basename={process.env.PUBLIC_URL + '/'} */>
             <div className="App">
                 <Switch>
                     <Route exact path="/">
-                        LOGIN FORM
+                        LOGIN!!!
                         <Link to="/session/123">LINK</Link>
                     </Route>
 
