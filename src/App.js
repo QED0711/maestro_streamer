@@ -16,7 +16,7 @@ function App() {
                 <Switch>
                     <Route exact path="/">
                         LOGIN!
-                        <Redirect to={"/session/umd"} />
+                        {/* <Redirect to={"/session/umd"} /> */}
                         {/* <Link to="/session/123">LINK</Link> */}
                     </Route>
 

@@ -14,7 +14,7 @@ import config from '../config.json'
 
 const DEFAULT_AUDIO_SETTINGS = {
     autoGainControl: false,
-    echoCancellation: false,
+    echoCancellation: true,
     noiseSuppression: false,
     sampleSize: 8,
 }
@@ -25,7 +25,7 @@ const ConnectionManager = () => {
     const { sessionID, name, location } = useParams()
 
     const queryParams = parseQueryString(window.location.search)
-    console.log(queryParams)
+    // console.log(queryParams)
 
     useEffect(() => {
 
@@ -41,8 +41,8 @@ const ConnectionManager = () => {
 
         peer.on("open", id => {
             setters.setUserID(id)
-            console.log({ id, peer })
-            console.log("PEER OPENING")
+            // console.log({ id, peer })
+            // console.log("PEER OPENING")
             socket.emit("join-session", { sessionID, userID: id, part: "PART STAND-IN" })
         })
 
@@ -89,25 +89,25 @@ const ConnectionManager = () => {
             })
 
             socket.on("user-connected", ({ userID, part }) => {
+                console.log(`RING: ${userID}`)
+                console.log("CONNECTED USERS", methods.getConnectedUsers())
 
                 if (!methods.getConnectedUsers().includes(userID)) { // if we have not connected to this user already
                     // 1. mark the user as seen
-                    setters.appendUser(userID);
-
+                    
+                    
+                    
                     // 2. call the user using their ID, and send them your stream
                     const call = peer.call(userID, stream)
-                    console.log({ call, stream })
+                    
+                    setters.appendUser(userID);
+                    // call.open && setters.appendUser(userID);
+                    // console.log(call.open)
+
                     call.on("stream", userVideoStream => {
                         setters.appendStream(userVideoStream)
                         // addVideoStream(video, userVideoStream, part)
                     })
-
-                    call.on("close", () => {
-                        console.log("REMOVING")
-                        // video.parentElement.remove()
-                        // video.remove()
-                    })
-                    // connectToNewUser(userID, stream, part)
                 }
             })
 
@@ -122,7 +122,6 @@ const ConnectionManager = () => {
 
         // secondary scope
         socket.on("user-data-response", data => {
-            console.log({ data })
             setters.appendStreamData(data.streamID, data)
         })
 
