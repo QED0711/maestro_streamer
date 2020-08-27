@@ -33,8 +33,8 @@ const ConnectionManager = () => {
         const peer = new Peer(undefined, {
             path: "/peerjs",
             host: config.server_host,
-            port: config.server_port,
-            secure: true
+            // port: 80,
+            // secure: true
             // debug: 3
         })
 

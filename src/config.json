@@ -1,6 +1,7 @@
 {
     "server_protocol" : "https",
     "server_host_l": "192.168.1.217",
-    "server_host": "52.207.166.31",
+    "server_host_r": "52.207.166.31",
+    "server_host": "maestrostreamer.com",
     "server_port": "4000"
 }

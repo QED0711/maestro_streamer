@@ -7,7 +7,8 @@ const SERVER_PROTOCOL = process.env.REACT_APP_SERVER_PROTOCOL || config.server_p
 
 const SERVER_URL = `${SERVER_PROTOCOL}://${SERVER_HOST}:${SERVER_PORT}/`
 
-const socket = io(SERVER_URL, {transports: ['websocket'], rejectUnauthorized: false});
+// const socket = io(SERVER_URL, {transports: ['websocket'], rejectUnauthorized: false});
+const socket = io("https://maestrostreamer.com",);
 
 export default socket;
 

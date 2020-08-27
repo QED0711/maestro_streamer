@@ -15,7 +15,7 @@ function App() {
             <div className="App">
                 <Switch>
                     <Route exact path="/">
-                        LOGIN!
+                        Maestro Streamer
                         {/* <Redirect to={"/session/umd"} /> */}
                         {/* <Link to="/session/123">LINK</Link> */}
                     </Route>
