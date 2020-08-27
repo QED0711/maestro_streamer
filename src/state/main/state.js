@@ -11,6 +11,8 @@ const state = {
     streams: [],
     streamsData: {},
 
+    showIDs: false,
+
 
 }
 

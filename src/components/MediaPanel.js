@@ -15,6 +15,7 @@ const MediaPanel = () => {
 
 
     const renderVideos = (streams) => {
+        
 
         return streams.map(stream => {
             return (
@@ -37,8 +38,8 @@ const MediaPanel = () => {
                                 : state.streamsData[stream.id]?.location || "--"
                         }
                     </h4>
-                    <sub>{stream.id}</sub>
                     <video id={`video-${stream.id}`}></video>
+                    {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
                 </div>
             )
         })

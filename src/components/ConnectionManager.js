@@ -25,9 +25,11 @@ const ConnectionManager = () => {
     const { sessionID, name, location } = useParams()
 
     const queryParams = parseQueryString(window.location.search)
-    // console.log(queryParams)
+    console.log(queryParams)
 
     useEffect(() => {
+
+        queryParams.showIDs && setters.setShowIDs(true)
 
         // 1. Peer initialization
         const peer = new Peer(undefined, {
