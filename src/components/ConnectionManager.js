@@ -57,7 +57,11 @@ const ConnectionManager = () => {
                 ...queryParams
             }
         }).then(stream => {
-
+            var ctx = new AudioContext();
+            var source = ctx.createMediaStreamSource(stream);
+            var dest = ctx.createMediaStreamDestination();
+            var gainNode = ctx.createGain();
+            
             setters.appendStream(stream, "local") // this propagates down and adds video to dom
 
             // HANDLE UNLOAD
@@ -96,12 +100,12 @@ const ConnectionManager = () => {
 
                 if (!methods.getConnectedUsers().includes(userID)) { // if we have not connected to this user already
                     // 1. mark the user as seen
-                    
-                    
-                    
+
+
+
                     // 2. call the user using their ID, and send them your stream
                     const call = peer.call(userID, stream)
-                    
+
                     setters.appendUser(userID);
                     // call.open && setters.appendUser(userID);
                     // console.log(call.open)
