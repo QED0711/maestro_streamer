@@ -1,6 +1,7 @@
 
 const state = {
 
+    authority: null,
     
     sessionAuthorization: true,
     ring: false,

@@ -1,6 +1,9 @@
 
 const methods = {
 
+    getAuthority(){
+        return this.state.authority
+    },
 
     getRing(){
         return this.state.ring;

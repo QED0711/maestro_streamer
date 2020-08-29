@@ -27,8 +27,10 @@ const ConfigPanel = () => {
             const ringInterval = setInterval(() => {
                 const userID = methods.getUserID()
                 const ring = methods.getRing();
+                const authority = methods.getAuthority()
+
                 if (userID) {
-                    ring ? socket.emit("ring", { sessionID, userID }) : clearInterval(ringInterval);
+                    ring ? socket.emit("ring", { sessionID, userID, authority }) : clearInterval(ringInterval);
                 }
             }, 1000)
         }

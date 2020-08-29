@@ -25,12 +25,19 @@ const ConnectionManager = () => {
     const { state, setters, methods } = useContext(mainContext);
     const { sessionID, name, location } = useParams()
 
-    const queryParams = parseQueryString(window.location.search)
-    console.log(queryParams)
-
-    console.log(navigator.mediaDevices.getSupportedConstraints())
-
+    
+    
+    
+    
     useEffect(() => {
+
+        const queryParams = parseQueryString(window.location.search)
+        
+        setters.setAuthority(queryParams.authority || 'basic')
+
+        console.log(queryParams)
+
+
 
         queryParams.showIDs && setters.setShowIDs(true)
 
@@ -103,7 +110,7 @@ const ConnectionManager = () => {
                 // })
             })
 
-            socket.on("user-connected", ({ userID, part }) => {
+            socket.on("user-connected", ({ userID }) => {
                 console.log(`RING: ${userID}`)
                 console.log("CONNECTED USERS", methods.getConnectedUsers())
 
