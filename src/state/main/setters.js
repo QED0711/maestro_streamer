@@ -37,6 +37,15 @@ const setters = {
         })
     },
 
+    appendChatMessage(chatObj){
+        this.setStateMaster(prevState => {
+            const chat = [...prevState.chat];
+
+            chat.push(chatObj)
+            return {chat}
+        })
+    },
+
     removeStream(streamID){
         this.setStateMaster(prevState => {
 

@@ -188,12 +188,15 @@ const ConnectionManager = () => {
 
 
         /* 
-        /////////////////////////////////////////////////////
-        NOTES: Somewhere (maybe not in this component) there needs to be an interval that calls all users in the socket room.
-        This interval should be triggered by a button press, and can be stopped by the same button press
-        In this interval, if a call is not open, it halts there and tries again at the next interval until the call is open
-        /////////////////////////////////////////////////////        
+        \\\\\\\\\\\\\\\\\
+        \\ CHAT MESSAGE \\
+        \\\\\\\\\\\\\\\\\\\
         */
+
+        socket.on("message-received", ({name, message}) => {
+            setters.appendChatMessage({name, message, self: false, time: Date.now()})
+        })
+        
 
 
     }, [])

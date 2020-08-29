@@ -15,6 +15,8 @@ const state = {
 
     showIDs: false,
 
+    chat: []
+
 
 }
 

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-ro
 import SessionWindow from './components/SessionWindow';
 import ConnectionManager from './components/ConnectionManager';
 import ConfigPanel from './components/ConfigPanel';
+import ChatBox from './components/ChatBox';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                         <ConnectionManager />
                         <ConfigPanel />
                         <SessionWindow />
+                        <ChatBox />
                     </Route>
                 </Switch>
             </div>
