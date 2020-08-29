@@ -14,6 +14,10 @@ const parseQueryString = (queryString) => {
             val = params.get(key);
         }
 
+        // handle numbers
+        if(["0", "0.0."].includes(val) || parseFloat(val)) val = parseFloat(val)
+
+        // handle booleans
         if(val === "false") val = false;
         if(val === "true") val = true;
 
