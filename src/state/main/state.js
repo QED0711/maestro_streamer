@@ -2,6 +2,7 @@
 const state = {
 
     authority: null,
+    knownAuthorities: {},
     
     sessionAuthorization: true,
     ring: false,

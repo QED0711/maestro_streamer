@@ -5,6 +5,10 @@ const methods = {
         return this.state.authority
     },
 
+    getKnownAuthorites(){
+        return this.state.knownAuthorities
+    },
+
     getRing(){
         return this.state.ring;
     },

@@ -27,6 +27,16 @@ const setters = {
         })
     },
 
+    appendKnownAuthority(userID, authorityLevel){
+        this.setStateMaster(prevState => {
+            const knownAuthorities = {...prevState.knownAuthorities}
+
+            knownAuthorities[userID] = authorityLevel
+            return {knownAuthorities}
+
+        })
+    },
+
     removeStream(streamID){
         this.setStateMaster(prevState => {
 
