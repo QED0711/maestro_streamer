@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import "../css/chat-box.css"
 
 // ======================== STATE ========================
@@ -11,6 +11,7 @@ import parseQueryString from '../helpers/parseQueryString'
 const ChatBox = () => {
 
     const { state, setters } = useContext(mainContext);
+    const [isScrolledToBottom, setIsScrolledToBottom] = useState(true)
     const queryParams = parseQueryString(window.location.search);
 
     
@@ -32,7 +33,6 @@ const ChatBox = () => {
 
             const d = new Date(message.time)
             const formattedTime = `${formatTimeNumber(d.getHours(), "hours")}:${formatTimeNumber(d.getMinutes())}:${formatTimeNumber(d.getSeconds())}`
-            console.log(message)
             return (
                 <div className={`chat-message-container from-self-${message.self}`} key={message.time}>
                     <div className="chat-message-header">
@@ -59,10 +59,10 @@ const ChatBox = () => {
         const value = textElement.value
         textElement.value = ""
 
-        console.log(value)
+
+        if(!/\w{1,}/.test(value)) return // user must type at least 1 character to submit
 
         const chatMessage = { name: queryParams.name || "anonymous", message: value }
-        console.log({ name: queryParams.name || "anonymous", message: value })
         socket.emit("chat-message", chatMessage)
 
 
@@ -71,10 +71,20 @@ const ChatBox = () => {
     }
 
     const handleTextareaKey = e => {
-        console.log(e)
         if(e.keyCode === 13 && !e.shiftKey){
             e.preventDefault()
             formRef.current.dispatchEvent(new Event("submit"))
+        }
+    }
+
+    const handleScroll = e => {
+        const currentScroll = e.target.scrollTop + e.target.clientHeight
+        if(
+            e.target.scrollHeight - 100 <= currentScroll // 100 us the allowable margin
+        ){
+            setIsScrolledToBottom(true)
+        } else {
+            setIsScrolledToBottom(false)
         }
     }
 
@@ -83,14 +93,14 @@ const ChatBox = () => {
     useEffect(() => {
         // handles scrolling to bottom on new message
         const element = messageContainer.current    
-        element.scrollTop = element.scrollHeight;
-    }, [state.chat])
+        if(isScrolledToBottom) element.scrollTop = element.scrollHeight;
+    }, [state.chat, isScrolledToBottom])
 
 
     return (
         <div id="chat-box">
 
-            <div id="chat-box-display" ref={messageContainer}>
+            <div id="chat-box-display" ref={messageContainer} onScroll={handleScroll}>
                 {renderChat(state.chat)}
             </div>
 
