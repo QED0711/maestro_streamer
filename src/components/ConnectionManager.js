@@ -13,10 +13,10 @@ import parseQueryString from '../helpers/parseQueryString'
 import config from '../config.json'
 
 const DEFAULT_AUDIO_SETTINGS = {
-    autoGainControl: { exact: false },
-    echoCancellation: { exact: false },
+    autoGainControl: false,
+    echoCancellation: false,
     noiseSuppression: false,
-    sampleSize: { exact: 16 },
+    sampleSize: 16,
     channelCount: 1
 }
 

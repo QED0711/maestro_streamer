@@ -7,6 +7,7 @@ import SessionWindow from './components/SessionWindow';
 import ConnectionManager from './components/ConnectionManager';
 import ConfigPanel from './components/ConfigPanel';
 import ChatBox from './components/ChatBox';
+import MediaSettingsPanel from './components/MediaSettingsPanel';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                     </Route>
 
                     <Route exact path="/session/:sessionID">
+                        <MediaSettingsPanel />
                         <ConnectionManager />
                         <ConfigPanel />
                         <SessionWindow />
