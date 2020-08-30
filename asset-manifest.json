@@ -1,23 +1,25 @@
 {
   "files": {
-    "main.css": "/maestro_streamer/static/css/main.7d8677c8.chunk.css",
-    "main.js": "/maestro_streamer/static/js/main.ac5f3925.chunk.js",
-    "main.js.map": "/maestro_streamer/static/js/main.ac5f3925.chunk.js.map",
+    "main.css": "/maestro_streamer/static/css/main.f62a3249.chunk.css",
+    "main.js": "/maestro_streamer/static/js/main.cae1e70c.chunk.js",
+    "main.js.map": "/maestro_streamer/static/js/main.cae1e70c.chunk.js.map",
     "runtime-main.js": "/maestro_streamer/static/js/runtime-main.3b8297a5.js",
     "runtime-main.js.map": "/maestro_streamer/static/js/runtime-main.3b8297a5.js.map",
-    "static/js/2.45cb90f1.chunk.js": "/maestro_streamer/static/js/2.45cb90f1.chunk.js",
-    "static/js/2.45cb90f1.chunk.js.map": "/maestro_streamer/static/js/2.45cb90f1.chunk.js.map",
+    "static/js/2.3192f353.chunk.js": "/maestro_streamer/static/js/2.3192f353.chunk.js",
+    "static/js/2.3192f353.chunk.js.map": "/maestro_streamer/static/js/2.3192f353.chunk.js.map",
     "index.html": "/maestro_streamer/index.html",
-    "precache-manifest.e8c42ce58538b5a958e9cda6c3a67464.js": "/maestro_streamer/precache-manifest.e8c42ce58538b5a958e9cda6c3a67464.js",
+    "precache-manifest.31cfee421d44181a2cce6e025b68378c.js": "/maestro_streamer/precache-manifest.31cfee421d44181a2cce6e025b68378c.js",
     "service-worker.js": "/maestro_streamer/service-worker.js",
-    "static/css/main.7d8677c8.chunk.css.map": "/maestro_streamer/static/css/main.7d8677c8.chunk.css.map",
-    "static/js/2.45cb90f1.chunk.js.LICENSE.txt": "/maestro_streamer/static/js/2.45cb90f1.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/maestro_streamer/static/media/logo.5d5d9eef.svg"
+    "static/css/main.f62a3249.chunk.css.map": "/maestro_streamer/static/css/main.f62a3249.chunk.css.map",
+    "static/js/2.3192f353.chunk.js.LICENSE.txt": "/maestro_streamer/static/js/2.3192f353.chunk.js.LICENSE.txt",
+    "static/media/close.svg": "/maestro_streamer/static/media/close.98fdc312.svg",
+    "static/media/logo.svg": "/maestro_streamer/static/media/logo.5d5d9eef.svg",
+    "static/media/menu.svg": "/maestro_streamer/static/media/menu.55f68494.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.3b8297a5.js",
-    "static/js/2.45cb90f1.chunk.js",
-    "static/css/main.7d8677c8.chunk.css",
-    "static/js/main.ac5f3925.chunk.js"
+    "static/js/2.3192f353.chunk.js",
+    "static/css/main.f62a3249.chunk.css",
+    "static/js/main.cae1e70c.chunk.js"
   ]
 }
