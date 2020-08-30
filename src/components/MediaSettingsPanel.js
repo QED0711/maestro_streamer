@@ -39,7 +39,7 @@ const MediaSettingsPanel = () => {
         return updatedString
 
     }
-    console.log(modifiedQueryString)
+    
     // EVENTS
     const handleChange = e => {
         setShowApplyButton(true)

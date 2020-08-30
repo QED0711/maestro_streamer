@@ -8,6 +8,7 @@ import ConnectionManager from './components/ConnectionManager';
 import ConfigPanel from './components/ConfigPanel';
 import ChatBox from './components/ChatBox';
 import MediaSettingsPanel from './components/MediaSettingsPanel';
+import MediaSettingsContainer from './components/MediaSettingsContainer';
 
 
 function App() {
@@ -23,8 +24,8 @@ function App() {
                     </Route>
 
                     <Route exact path="/session/:sessionID">
-                        <MediaSettingsPanel />
                         <ConnectionManager />
+                        <MediaSettingsContainer />
                         <ConfigPanel />
                         <SessionWindow />
                         <ChatBox />
