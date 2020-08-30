@@ -11,6 +11,7 @@ import parseQueryString from '../helpers/parseQueryString'
 const ChatBox = () => {
 
     const { state, setters } = useContext(mainContext);
+    
     const [isScrolledToBottom, setIsScrolledToBottom] = useState(true)
     const queryParams = parseQueryString(window.location.search);
 

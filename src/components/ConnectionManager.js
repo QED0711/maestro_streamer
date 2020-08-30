@@ -23,7 +23,7 @@ const DEFAULT_AUDIO_SETTINGS = {
 const ConnectionManager = () => {
 
     const { state, setters, methods } = useContext(mainContext);
-    const { sessionID, name, location } = useParams()
+    const { sessionID,} = useParams()
 
 
 
