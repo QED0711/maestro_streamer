@@ -17,29 +17,29 @@ const MediaPanel = () => {
     const renderVideos = (streams) => {
         
 
-        return streams.map(stream => {
+        return streams.map(streamObj => {
             return (
-                <div className="video-container" key={stream.id} id={stream.id}>
+                <div className="video-container" key={streamObj.stream.mediaStream.id} id={streamObj.stream.mediaStream.id}>
 
                     {/* <p>{stream.id}</p> */}
 
                     <h3 className="video-header user-name">
                         {
-                            state.localStreamID === stream.id
+                            state.localStreamID === streamObj.stream.mediaStream.id
                                 ? queryParams.name
-                                : state.streamsData[stream.id]?.name || "--"
+                                : state.streamsData[streamObj.stream.mediaStream.id]?.name || "--"
                         }
                     </h3>
 
                     <h4 className="video-header user-location">
                         {
-                            state.localStreamID === stream.id
+                            state.localStreamID === streamObj.stream.mediaStream.id
                                 ? queryParams.location
-                                : state.streamsData[stream.id]?.location || "--"
+                                : state.streamsData[streamObj.stream.mediaStream.id]?.location || "--"
                         }
                     </h4>
-                    <video id={`video-${stream.id}`}></video>
-                    {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
+                    <video id={`video-${streamObj.stream.mediaStream.id}`}></video>
+                    {state.showIDs && <em><sub className="sub-id">{streamObj.stream.mediaStream.id}</sub></em>}
                 </div>
             )
         })
@@ -50,14 +50,15 @@ const MediaPanel = () => {
     useEffect(() => {
         const addStreamsToVideos = () => {
             let video;
-            state.streams.forEach(stream => {
-                video = document.getElementById(`video-${stream.id}`)
+            state.streams.forEach(streamObj => {
+                
+                video = document.getElementById(`video-${streamObj.stream.mediaStream.id}`)
 
                 if (!video.paused) return // break out early
 
-                video.muted = stream.id === state.localStreamID // mute only the local stream
+                video.muted = streamObj.stream.mediaStream.id === state.localStreamID // mute only the local stream
                 video.controls = "controls"
-                video.srcObject = stream;
+                video.srcObject = streamObj.stream.mediaStream;
 
                 video.addEventListener("loadedmetadata", () => {
                     video.play();
@@ -65,7 +66,7 @@ const MediaPanel = () => {
 
                 video.addEventListener("mousedown", e => {
                     e.preventDefault()
-                    if (e.altKey) setters.removeStream(stream.id)
+                    if (e.altKey) setters.removeStream(streamObj.stream.mediaStream.id)
                 })
             })
         }

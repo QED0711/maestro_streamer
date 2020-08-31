@@ -1,6 +1,9 @@
 
 const state = {
 
+    audioContext: null,
+    audioDestination: null,
+
     authority: null,
     knownAuthorities: {},
     

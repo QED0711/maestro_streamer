@@ -1,15 +1,15 @@
 const setters = {
 
-    appendStream(stream, source=null){
+    appendStream(stream, gainNode, source=null){
         this.setStateMaster(prevState => {
             // 1. append string to streams state
             const streams = [...prevState.streams]
             const streamIDs = streams.map(stream => stream.id)
             // const streams = [...this.state.streams]
-            if(!streamIDs.includes(stream.id)) streams.push(stream)
+            if(!streamIDs.includes(stream.id)) streams.push({stream, gainNode})
 
             // 2. if the stream source is the local stream, set the localStreamID
-            if(source === "local") return {streams, localStreamID: stream.id}
+            if(source === "local") return {streams, localStreamID: stream.mediaStream.id}
  
             // else, just set streams
             return {streams}

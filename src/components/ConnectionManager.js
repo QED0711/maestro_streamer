@@ -23,7 +23,7 @@ const DEFAULT_AUDIO_SETTINGS = {
 const ConnectionManager = () => {
 
     const { state, setters, methods } = useContext(mainContext);
-    const { sessionID,} = useParams()
+    const { sessionID, } = useParams()
 
 
 
@@ -31,54 +31,57 @@ const ConnectionManager = () => {
 
     useEffect(() => {
 
-        const queryParams = parseQueryString(window.location.search)
+        // only run the following if we have a context created
+        if (state.audioContext) {
 
-        setters.setAuthority(queryParams.authority || 'basic')
+            const queryParams = parseQueryString(window.location.search)
 
-        console.log(queryParams)
+            setters.setAuthority(queryParams.authority || 'basic')
 
-
-
-        queryParams.showIDs && setters.setShowIDs(true)
-
-        // 1. Peer initialization
-        const peer = new Peer(undefined, {
-            path: "/peerjs",
-            host: config.server_host,
-            // port: 80,
-            // secure: true
-            // debug: 3
-        })
+            console.log(queryParams)
 
 
-        peer.on("open", id => {
-            setters.setUserID(id)
-            // console.log({ id, peer })
-            // console.log("PEER OPENING")
-            socket.emit("join-session", { sessionID, userID: id, part: "PART STAND-IN" })
-        })
+
+            queryParams.showIDs && setters.setShowIDs(true)
+
+            // 1. Peer initialization
+            const peer = new Peer(undefined, {
+                path: "/peerjs",
+                host: config.server_host,
+                // port: 80,
+                // secure: true
+                // debug: 3
+            })
 
 
-        // 2. getting media devices
-        navigator.mediaDevices.getUserMedia({
-            video: queryParams.video === false ? false : true,
-            audio: queryParams.audio === false ? false : {
-                ...DEFAULT_AUDIO_SETTINGS,
-                ...queryParams
-            }
-        }).then(rawStream => {
+            peer.on("open", id => {
+                setters.setUserID(id)
+                // console.log({ id, peer })
+                // console.log("PEER OPENING")
+                socket.emit("join-session", { sessionID, userID: id, part: "PART STAND-IN" })
+            })
+
+
+            // 2. getting media devices
+            navigator.mediaDevices.getUserMedia({
+                video: queryParams.video === false ? false : true,
+                audio: queryParams.audio === false ? false : {
+                    ...DEFAULT_AUDIO_SETTINGS,
+                    ...queryParams
+                }
+            }).then(rawStream => {
                 // var ctx = new AudioContext();
-                // var source = ctx.createMediaStreamSource(rawStream);
                 // var dest = ctx.createMediaStreamDestination();
-                // var gainNode = ctx.createGain();
-                // console.log({rawStream, source, dest})
+                const source = state.audioContext.createMediaStreamSource(rawStream);
+                const gainNode = state.audioContext.createGain();
+                // console.log({ source, gainNode, destination: state.audioDestination })
 
-                // source.connect(gainNode);
-                // gainNode.connect(dest);
+                source.connect(gainNode);
+                gainNode.connect(state.audioDestination);
 
-                // gainNode.gain.value = 0.9
+                gainNode.gain.value = 0.1
 
-                setters.appendStream(rawStream, "local") // this propagates down and adds video to dom
+                setters.appendStream(source, gainNode, "local") // this propagates down and adds video to dom
 
                 // HANDLE UNLOAD
                 // if the session the person who started the session leaves, these unload event handlers will inform other session members of their departure so they can clean up any stale user data.
@@ -90,14 +93,14 @@ const ConnectionManager = () => {
                 window.addEventListener("beforeunload", handlePageUnload)
 
                 peer.on("call", call => {
-                    
+
                     /* 
                     IF STATEMENT:
                         - if the person calling me is an admin, I will answer with my stream regardless of my own authority
                         - if I am an admin, I will respond with my stream to the person calling me regardless of their authority
                     
                     */
-                    if(methods.getAuthority() === "admin" || call.metadata.authority === "admin"){
+                    if (methods.getAuthority() === "admin" || call.metadata.authority === "admin") {
                         call.answer(rawStream)
                     } else {
                         call.answer(null)
@@ -109,7 +112,16 @@ const ConnectionManager = () => {
                     call.on("stream", userVideoStream => {
                         // userVideoStreams are from users who were already connected
                         socket.emit("request-user-data", { streamID: userVideoStream.id }) // requests data from the user based on their stream id
-                        setters.appendStream(userVideoStream)
+
+                        const source = state.audioContext.createMediaStreamSource(userVideoStream);
+                        const gainNode = state.audioContext.createGain();
+
+                        source.connect(gainNode);
+                        gainNode.connect(state.audioDestination);
+
+                        gainNode.gain.value = 0.1
+
+                        setters.appendStream(source, gainNode)
                         // addVideoStream(video, userVideoStream)
                     })
 
@@ -137,8 +149,8 @@ const ConnectionManager = () => {
 
                     if (
                         !methods.getConnectedUsers().includes(userID)
-                        && (["admin", "monitor"].includes(remoteAuthority) || methods.getAuthority() === "admin") 
-                    ) { 
+                        && (["admin", "monitor"].includes(remoteAuthority) || methods.getAuthority() === "admin")
+                    ) {
 
 
 
@@ -147,7 +159,7 @@ const ConnectionManager = () => {
 
 
                         // 2. call the user using their ID, and send them your stream
-                        const call = peer.call(userID, rawStream, {metadata: {authority: methods.getAuthority()}})
+                        const call = peer.call(userID, rawStream, { metadata: { authority: methods.getAuthority() } })
 
                         setters.appendUser(userID);
                         // call.open && setters.appendUser(userID);
@@ -169,37 +181,38 @@ const ConnectionManager = () => {
             })
 
 
-        // secondary scope
-        socket.on("user-data-response", data => {
-            setters.appendStreamData(data.streamID, data)
-        })
+            // secondary scope
+            socket.on("user-data-response", data => {
+                setters.appendStreamData(data.streamID, data)
+            })
 
-        socket.on("user-disconnected", userID => {
-            // peers[userID] && peers[userID].close()
-        })
+            socket.on("user-disconnected", userID => {
+                // peers[userID] && peers[userID].close()
+            })
 
-        socket.on("remove-stale-user", data => {
-            console.log("WILL REMOVE STALE USER")
-            console.log(data)
-            setters.removeStream(data.streamID)
-            // const staleStream = document.getElementById(data.streamID)
-            // staleStream.remove()
-        })
-
-
-        /* 
-        \\\\\\\\\\\\\\\\\
-        \\ CHAT MESSAGE \\
-        \\\\\\\\\\\\\\\\\\\
-        */
-
-        socket.on("message-received", ({name, message}) => {
-            setters.appendChatMessage({name, message, self: false, time: Date.now()})
-        })
-        
+            socket.on("remove-stale-user", data => {
+                console.log("WILL REMOVE STALE USER")
+                console.log(data)
+                setters.removeStream(data.streamID)
+                // const staleStream = document.getElementById(data.streamID)
+                // staleStream.remove()
+            })
 
 
-    }, [])
+            /* 
+            \\\\\\\\\\\\\\\\\
+            \\ CHAT MESSAGE \\
+            \\\\\\\\\\\\\\\\\\\
+            */
+
+            socket.on("message-received", ({ name, message }) => {
+                setters.appendChatMessage({ name, message, self: false, time: Date.now() })
+            })
+        }
+
+
+
+    }, [state.audioContext])
 
     return <></>
 
