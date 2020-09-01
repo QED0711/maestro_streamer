@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -9,9 +9,18 @@ import ConfigPanel from './components/ConfigPanel';
 import ChatBox from './components/ChatBox';
 import MediaSettingsPanel from './components/MediaSettingsPanel';
 import MediaSettingsContainer from './components/MediaSettingsContainer';
+import { mainContext } from './state/main/mainProvider';
 
 
 function App() {
+
+    const {setters} = useContext(mainContext)
+
+    useEffect(() => {
+
+        setters.setAudioContext(new AudioContext())
+
+    }, [])
 
     return (
         <Router basename={process.env.PUBLIC_URL + '/'}>

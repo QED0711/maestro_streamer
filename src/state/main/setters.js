@@ -1,12 +1,25 @@
 const setters = {
 
     appendStream(stream, source=null){
+        console.log(stream.id)
         this.setStateMaster(prevState => {
             // 1. append string to streams state
             const streams = [...prevState.streams]
-            const streamIDs = streams.map(stream => stream.id)
-            // const streams = [...this.state.streams]
-            if(!streamIDs.includes(stream.id)) streams.push(stream)
+            const streamIDs = streams.map(streamObj => streamObj.source.mediaStream.id)
+            
+            if(!streamIDs.includes(stream.id)){
+                // create gain node for stream
+                const source = this.state.audioContext.createMediaStreamSource(stream)
+                const gainNode = this.state.audioContext.createGain()
+                gainNode.gain.value = 1
+                
+                // connect gainNode to source and destination
+                source.connect(gainNode)
+                gainNode.connect(this.state.audioContext.destination)
+
+                // push to streams
+                streams.push({source, gainNode})
+            } 
 
             // 2. if the stream source is the local stream, set the localStreamID
             if(source === "local") return {streams, localStreamID: stream.id}

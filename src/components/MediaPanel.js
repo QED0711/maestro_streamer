@@ -14,32 +14,38 @@ const MediaPanel = () => {
     const queryParams = parseQueryString(window.location.search);
 
 
+    const handleGainChange = gainNode => e => {
+        gainNode.gain.value = parseFloat(e.target.value)
+    }
+
     const renderVideos = (streams) => {
         
 
-        return streams.map(stream => {
+        return streams.map(streamObj => {
             return (
-                <div className="video-container" key={stream.id} id={stream.id}>
+                <div className="video-container" key={streamObj.source.mediaStream.id} id={streamObj.source.mediaStream.id}>
 
                     {/* <p>{stream.id}</p> */}
 
                     <h3 className="video-header user-name">
                         {
-                            state.localStreamID === stream.id
+                            state.localStreamID === streamObj.source.mediaStream.id
                                 ? queryParams.name
-                                : state.streamsData[stream.id]?.name || "--"
+                                : state.streamsData[streamObj.source.mediaStream.id]?.name || "--"
                         }
                     </h3>
 
                     <h4 className="video-header user-location">
                         {
-                            state.localStreamID === stream.id
+                            state.localStreamID === streamObj.source.mediaStream.id
                                 ? queryParams.location
-                                : state.streamsData[stream.id]?.location || "--"
+                                : state.streamsData[streamObj.source.mediaStream.id]?.location || "--"
                         }
                     </h4>
-                    <video id={`video-${stream.id}`}></video>
-                    {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
+                    <video id={`video-${streamObj.source.mediaStream.id}`}></video>
+                    {state.showIDs && <em><sub className="sub-id">{streamObj.source.mediaStream.id}</sub></em>}
+
+                    <input id={`gain-${streamObj.source.mediaStream.id}`} type="range" min="0" max="1" step="0.01" onChange={handleGainChange(streamObj.gainNode)} />
                 </div>
             )
         })
@@ -49,15 +55,18 @@ const MediaPanel = () => {
 
     useEffect(() => {
         const addStreamsToVideos = () => {
-            let video;
-            state.streams.forEach(stream => {
-                video = document.getElementById(`video-${stream.id}`)
+            let video, gainSlider;
+            state.streams.forEach(streamObj => {
+                
+                video = document.getElementById(`video-${streamObj.source.mediaStream.id}`)
 
                 if (!video.paused) return // break out early
 
-                video.muted = stream.id === state.localStreamID // mute only the local stream
-                video.controls = "controls"
-                video.srcObject = stream;
+                // video.controls = "controls"
+                video.volume = 0; // allows for the gain node to take over the output gain
+                // gainSlider.value = streamObj.source.mediaStream.id === state.localStreamID ? 0 : 1
+                // video.muted = streamObj.source.mediaStream.id === state.localStreamID // mute only the local stream
+                video.srcObject = streamObj.source.mediaStream;
 
                 video.addEventListener("loadedmetadata", () => {
                     video.play();
@@ -65,7 +74,7 @@ const MediaPanel = () => {
 
                 video.addEventListener("mousedown", e => {
                     e.preventDefault()
-                    if (e.altKey) setters.removeStream(stream.id)
+                    if (e.altKey) setters.removeStream(streamObj.source.mediaStream.id)
                 })
             })
         }
