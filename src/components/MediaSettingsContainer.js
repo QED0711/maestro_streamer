@@ -17,19 +17,20 @@ const MediaSettingsContainer = () => {
 
     return (
         <div style={{ textAlign: "left" }}>
-            <div onClick={handleClick} style={{cursor: "pointer", display: "inline-block"}}>
+            <div onClick={handleClick} style={{ cursor: "pointer", display: "inline-block" }}>
                 {
                     showSettingsPanel
                         ? <img src={close} />
                         : <img src={menu} />
                 }
             </div>
-            <a href={window.location.href}>Reload</a>
             {
                 showSettingsPanel
                 &&
                 <MediaSettingsPanel />
             }
+            <br />
+            <a href={window.location.href}>Reload</a>
         </div>
     )
 

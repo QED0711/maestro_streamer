@@ -5,8 +5,13 @@
 [] add video sizing params to string
 [] add sign in page where users enter the session token, their name, and location
 
-[] ring to only privileged users
+[X] ring to only privileged users
     - There will be three authority levels
         - admin: Highest and most privileged level. Two way connection to everyone by default
         - monitor: Mid level privileges. Receives connections from everyone, but only sends stream to admin
         - basic: Lowest and least privileged level. Receives stream from admin only, sends streams to admin and monitor levels. This is the default authority if not set
+
+
+[] Master Gain Slider
+    - all generated gain sliders get connected to the master gain slider before going out to the destination
+    - the master gain slider is global and established on page load? The master gain slider connects directly to the destination

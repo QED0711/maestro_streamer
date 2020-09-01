@@ -2,6 +2,7 @@
 const state = {
 
     audioContext: null,
+    masterGain: null,
 
     authority: null,
     knownAuthorities: {},

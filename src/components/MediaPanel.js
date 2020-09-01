@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import "../css/media-panel.css"
 
@@ -13,12 +13,15 @@ const MediaPanel = () => {
     const { state, setters } = useContext(mainContext);
     const queryParams = parseQueryString(window.location.search);
 
+    const [masterGainLevel, setMasterGainLevel] = useState(1)
 
-    const handleGainChange = gainNode => e => {
-        console.log(gainNode)
-        gainNode.gain.value = parseFloat(e.target.value)
+    // EVENTS
+    const handleMasterGainChange = e => {
+        state.masterGain.gain.value = parseFloat(e.target.value)
+        setMasterGainLevel(e.target.value)
     }
 
+    // HELPERS
     const renderVideos = (streams) => {
 
 
@@ -46,7 +49,7 @@ const MediaPanel = () => {
                     <video id={`video-${stream.id}`}></video>
                     {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
 
-                    <input id={`gain-${stream.id}`} type="range" min="0" max="1" step="0.01" /* onChange={handleGainChange(streamObj.gainNode)} */ />
+                    <input id={`gain-${stream.id}`} className="stream-gain" type="range" min="0" max="1" step="0.01" /* onChange={handleGainChange(streamObj.gainNode)} */ />
                 </div>
             )
         })
@@ -58,13 +61,13 @@ const MediaPanel = () => {
         const addStreamsToVideos = () => {
             let video, gainSlider, source, gainNode;
             state.streams.forEach(stream => {
-                
+
                 video = document.getElementById(`video-${stream.id}`)
                 gainSlider = document.getElementById(`gain-${stream.id}`)
 
                 if (!video.paused) return // break out early
 
-                
+
                 try {
                     // source = state.audioContext.createMediaElementSource(video)
                     source = state.audioContext.createMediaStreamSource(stream)
@@ -76,16 +79,17 @@ const MediaPanel = () => {
                 }
                 // debugger
                 source.connect(gainNode)
-                gainNode.connect(state.audioContext.destination)
+                gainNode.connect(state.masterGain)
+                // gainNode.connect(state.audioContext.destination)
                 // gainNode.gain.value = 0
-                
-                gainSlider.addEventListener("change", function(e){
-                    
+
+                gainSlider.addEventListener("change", function (e) {
+
                     // video.volume = parseFloat(e.target.value)
-                    gainNode.gain.value = parseFloat(e.target.value)                    
+                    gainNode.gain.value = parseFloat(e.target.value)
                 })
-                
-                
+
+
                 video.srcObject = stream;
                 video.volume = 0; // allows for the gain node to take over the output gain
                 video.controls = "controls"
@@ -111,9 +115,16 @@ const MediaPanel = () => {
 
 
     return (
-        <div id="media-panel">
-            {renderVideos(state.streams)}
-        </div>
+        <>
+            <div className="master-gain-container">
+                <label htmlFor="master-gain">Master Gain: {masterGainLevel}</label>
+                <br />
+                <input id="master-gain" type="range" min="0" max="1" step="0.01" onChange={handleMasterGainChange} />
+            </div>
+            <div id="media-panel">
+                {renderVideos(state.streams)}
+            </div>
+        </>
     )
 
 }

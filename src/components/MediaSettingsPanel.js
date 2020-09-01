@@ -143,7 +143,7 @@ const MediaSettingsPanel = () => {
                     </>
                 }
             </div>
-            {showApplyButton && <a href={`/session/${sessionID}?${modifiedQueryString}`}>Apply</a>}
+            {showApplyButton && <a href={`${window.location.href.split("?")[0]}?${modifiedQueryString}`}>Apply</a>}
         </>
     )
 

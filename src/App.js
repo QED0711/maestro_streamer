@@ -18,7 +18,14 @@ function App() {
 
     useEffect(() => {
 
-        setters.setAudioContext(new AudioContext())
+        const audioCtx = new AudioContext()
+        const masterGain = audioCtx.createGain()
+        
+        masterGain.gain.value = 1
+        masterGain.connect(audioCtx.destination)
+        
+        setters.setAudioContext(audioCtx)
+        setters.setMasterGain(masterGain)
 
     }, [])
 
