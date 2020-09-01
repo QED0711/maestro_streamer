@@ -24,6 +24,7 @@ const MediaSettingsContainer = () => {
                         : <img src={menu} />
                 }
             </div>
+            <a href={window.location.href}>Reload</a>
             {
                 showSettingsPanel
                 &&
