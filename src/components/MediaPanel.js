@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import webAudioPeakMeter from 'web-audio-peak-meter';
 
 import "../css/media-panel.css"
 
@@ -13,6 +14,7 @@ const MediaPanel = () => {
     const { state, setters } = useContext(mainContext);
     const queryParams = parseQueryString(window.location.search);
 
+    const [initMasterGainMeter, setInitMasterGainMeter] = useState(true)
     const [masterGainLevel, setMasterGainLevel] = useState(1)
 
     // EVENTS
@@ -48,8 +50,14 @@ const MediaPanel = () => {
                     </h4>
                     <video id={`video-${stream.id}`}></video>
                     {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
+                    {/* <div className="meters">
+                        <div id={`pre-meter-${stream.id}`} className="peak-meter"></div>
+                        <div id={`post-meter-${stream.id}`} className="peak-meter"></div>
+
+                    </div> */}
 
                     <input id={`gain-${stream.id}`} className="stream-gain" type="range" min="0" max="1" step="0.01" /* onChange={handleGainChange(streamObj.gainNode)} */ />
+                    <button id={`mute-btn-${stream.id}`}>Mute</button>
                 </div>
             )
         })
@@ -59,11 +67,24 @@ const MediaPanel = () => {
 
     useEffect(() => {
         const addStreamsToVideos = () => {
-            let video, gainSlider, source, gainNode;
+            let video, 
+                gainSlider, 
+                source, 
+                gainNode, 
+                muteButton,
+                preMeter, 
+                postMeter, 
+                preMeterNode,
+                postMeterNode;
+
             state.streams.forEach(stream => {
 
                 video = document.getElementById(`video-${stream.id}`)
                 gainSlider = document.getElementById(`gain-${stream.id}`)
+                muteButton = document.getElementById(`mute-btn-${stream.id}`)
+
+                // preMeter = document.getElementById(`pre-meter-${stream.id}`)
+                // postMeter = document.getElementById(`post-meter-${stream.id}`)
 
                 if (!video.paused) return // break out early
 
@@ -72,6 +93,12 @@ const MediaPanel = () => {
                     // source = state.audioContext.createMediaElementSource(video)
                     source = state.audioContext.createMediaStreamSource(stream)
                     gainNode = state.audioContext.createGain()
+                    
+                    // preMeterNode = webAudioPeakMeter.createMeterNode(source, state.audioContext)
+                    // postMeterNode = webAudioPeakMeter.createMeterNode(gainNode, state.audioContext)
+
+                    // webAudioPeakMeter.createMeter(preMeter, preMeterNode)
+                    // webAudioPeakMeter.createMeter(postMeter, postMeterNode)
                 } catch (err) {
                     console.log(err)
                     // if there was an error here, it is because we already connected the video to an output source
@@ -87,6 +114,11 @@ const MediaPanel = () => {
 
                     // video.volume = parseFloat(e.target.value)
                     gainNode.gain.value = parseFloat(e.target.value)
+                })
+
+                muteButton.addEventListener("click", e => {
+                    const value = document.getElementById(`gain-${stream.id}`).value
+                    console.log(value)
                 })
 
 
@@ -111,6 +143,16 @@ const MediaPanel = () => {
 
         addStreamsToVideos()
 
+        // INIT MASTER GAIN METER
+        if(initMasterGainMeter && state.masterGain){
+
+            const masterMeter = document.getElementById("master-gain-meter")
+            const masterGainMeterNode = webAudioPeakMeter.createMeterNode(state.masterGain, state.audioContext) 
+            webAudioPeakMeter.createMeter(masterMeter, masterGainMeterNode)
+
+            setInitMasterGainMeter(false) // so we don't redo on each new stream
+        }
+
     }, [state.streams])
 
 
@@ -120,6 +162,7 @@ const MediaPanel = () => {
                 <label htmlFor="master-gain">Master Gain: {masterGainLevel}</label>
                 <br />
                 <input id="master-gain" type="range" min="0" max="1" step="0.01" onChange={handleMasterGainChange} />
+                <div id="master-gain-meter"></div>
             </div>
             <div id="media-panel">
                 {renderVideos(state.streams)}

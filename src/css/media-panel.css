@@ -14,6 +14,19 @@
 }
 
 
+#master-gain-meter{
+
+    height: 5rem;
+    width: 100%;
+    position: static;
+
+    /* top: -16vw; */
+
+    /* transform: rotate(90deg); */
+    /* margin: -25vw auto; */
+}
+
+
 
 #media-panel{
     width: 95%;
@@ -61,4 +74,20 @@
 
 .sub-id{
     font-size: 0.66rem;
+}
+
+
+
+
+
+.meters{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.peak-meter{
+    width: 100%;
+    height: 4rem;
+
+    background-color: red;
 }

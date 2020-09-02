@@ -12,6 +12,11 @@
         - basic: Lowest and least privileged level. Receives stream from admin only, sends streams to admin and monitor levels. This is the default authority if not set
 
 
-[] Master Gain Slider
+[X] Master Gain Slider
     - all generated gain sliders get connected to the master gain slider before going out to the destination
     - the master gain slider is global and established on page load? The master gain slider connects directly to the destination
+
+[] Add mute button to each track
+    - button element already added. On click, checks if slider is disabled. 
+        - if disabled, gets the value and sets that to gain node.
+        - if not disabled, set gain node to 0
