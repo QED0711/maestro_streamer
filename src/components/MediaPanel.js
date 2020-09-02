@@ -85,9 +85,10 @@ const MediaPanel = () => {
 
                 // preMeter = document.getElementById(`pre-meter-${stream.id}`)
                 // postMeter = document.getElementById(`post-meter-${stream.id}`)
-
-                if (!video.paused) return // break out early
-
+                
+                // if we have added events listeners to any of the elements retrieved above, then they have already been created and we should bail out early
+                if (!video.paused || muteButton.onclick) return // break out early
+                
 
                 try {
                     // source = state.audioContext.createMediaElementSource(video)
@@ -104,22 +105,34 @@ const MediaPanel = () => {
                     // if there was an error here, it is because we already connected the video to an output source
                     return
                 }
-                // debugger
+                
                 source.connect(gainNode)
                 gainNode.connect(state.masterGain)
-                // gainNode.connect(state.audioContext.destination)
-                // gainNode.gain.value = 0
 
-                gainSlider.addEventListener("change", function (e) {
+                // set the self gain to 0
+                if (stream.id === state.localStreamID) {
+                    gainNode.gain.value = 0
+                    gainSlider.disabled = true
+                    muteButton.innerText = "Unmute"
+                }
 
+
+                gainSlider.onchange = function (e) {
                     // video.volume = parseFloat(e.target.value)
                     gainNode.gain.value = parseFloat(e.target.value)
-                })
+                }
 
-                muteButton.addEventListener("click", e => {
-                    const value = document.getElementById(`gain-${stream.id}`).value
-                    console.log(value)
-                })
+                muteButton.onclick = function(e) {
+                    gainSlider.disabled = !gainSlider.disabled
+                    if(gainSlider.disabled) {
+                        gainNode.gain.value = 0
+                        this.innerText = "Unmute"
+                    } else {
+                        const value = document.getElementById(`gain-${stream.id}`).value
+                        gainNode.gain.value = value
+                        this.innerText = "Mute"
+                    }
+                }
 
 
                 video.srcObject = stream;
