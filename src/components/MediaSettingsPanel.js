@@ -26,12 +26,19 @@ const MediaSettingsPanel = () => {
         for(let setting of settings){
             
             key = setting.dataset.key
+
             
             if(setting.type === "checkbox"){
                 value = setting.checked 
             } else {
                 value = setting.value
             }
+            
+            // if(/override/.test(key) && value){
+            //     updatedString += `${key}=${value}&`    
+            // } else {
+            //     continue
+            // }
 
             updatedString += `${key}=${value}&`
         }
@@ -132,12 +139,25 @@ const MediaSettingsPanel = () => {
                             <br />
 
                             <label htmlFor="video-width">Width </label>
-                            <input type="number" className="media-setting" data-key="width" step="1" min="10" max="9999" defaultValue={queryString.width || "1920"} />
-
+                            <input type="number" className="media-setting" data-key="width" step="1" min="10" max="9999" defaultValue={queryString.width || "852"} />
+                            {/* <input type="checkbox" className="media-setting" data-key="override-width" defaultChecked={!!queryString.width} /> */}
                             <br />
 
                             <label htmlFor="video-height">Height </label>
-                            <input type="number" className="media-setting" data-key="height" step="1" min="10" max="9999" defaultValue={queryString.height || "1080"} />
+                            <input type="number" className="media-setting" data-key="height" step="1" min="10" max="9999" defaultValue={queryString.height || "480"} />
+                            
+                            <br />
+
+                            <label htmlFor="video-height">Frame Rate </label>
+                            <input type="number" className="media-setting" data-key="frameRate" step="1" min="1" max="99" defaultValue={queryString.frameRate || "30"} />
+                            
+                            <br/>
+
+                            <label htmlFor="video-height">Resize Mode </label>
+                            <select data-key="resizeMode" className="media-setting" defaultValue={queryString.resizeMode || "crop-and-scale"}>
+                                <option value="none">None</option>
+                                <option value="crop-and-scale">crop and scale</option>
+                            </select>
                         </div>
 
                     </>

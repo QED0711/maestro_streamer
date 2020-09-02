@@ -61,7 +61,9 @@ const ConnectionManager = () => {
 
         // 2. getting media devices
         navigator.mediaDevices.getUserMedia({
-            video: queryParams.video === false ? false : true,
+            video: queryParams.video === false ? false : {
+                ...queryParams
+            },
             audio: queryParams.audio === false ? false : {
                 ...DEFAULT_AUDIO_SETTINGS,
                 ...queryParams
