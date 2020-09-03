@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import "../css/media-settings.css"
 
 // ======================= STATE =======================
@@ -11,7 +11,7 @@ import parseQueryString from '../helpers/parseQueryString';
 const MediaSettingsPanel = () => {
 
     const { state, setters } = useContext(mainContext);
-    const { sessionID,} = useParams()
+    const { sessionID, } = useParams()
     const [queryString, setQueryString] = useState(null)
     const [showApplyButton, setShowApplyButton] = useState(false)
     const [modifiedQueryString, setModifiedQueryString] = useState("")
@@ -20,39 +20,58 @@ const MediaSettingsPanel = () => {
     const parseSettings = () => {
         const settings = [...document.getElementsByClassName("media-setting")]
 
-        let updatedString = ""
+        const settingsObj = {}
 
-        let key, value;
-        for(let setting of settings){
-            
+        let key, value, override;
+        for (let setting of settings) {
+
             key = setting.dataset.key
+            override = setting.dataset.override
 
-            
-            if(setting.type === "checkbox"){
-                value = setting.checked 
+            if (setting.type === "checkbox") {
+                value = setting.checked
             } else {
                 value = setting.value
             }
-            
+
             // if(/override/.test(key) && value){
             //     updatedString += `${key}=${value}&`    
             // } else {
             //     continue
             // }
 
-            updatedString += `${key}=${value}&`
+            if(override !== undefined){
+                if(!value){ // if override was specified and it is false, delete the key
+                    delete settingsObj[key]
+                } 
+                continue
+            }
+
+            settingsObj[key] = value
+
+
         }
         
+        let updatedString = ""
+        for(let [key, val] of Object.entries(settingsObj)){
+            updatedString += `${key}=${val}&`
+
+        }
+
         return updatedString
 
     }
-    
+
     // EVENTS
     const handleChange = e => {
         setShowApplyButton(true)
 
         setModifiedQueryString(parseSettings())
 
+    }
+
+    const handleCheckNext = e => {
+        e.target.nextSibling.checked = true
     }
 
 
@@ -114,20 +133,22 @@ const MediaSettingsPanel = () => {
                             <br />
 
                             <label htmlFor="audio-channels">Channel Count </label>
-                            <select data-key="channelCount" className="media-setting" defaultValue={queryString.channelCount || "1"}>
+                            <select data-key="channelCount" className="media-setting" defaultValue={queryString.channelCount || "1"} onChange={handleCheckNext}>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                             </select>
+                            <input type="checkbox" className="media-setting" data-override="channelCount" data-key="channelCount" defaultChecked={!!queryString.channelCount} />
 
                             <br />
 
                             <label htmlFor="audio-samples">Sample Size </label>
-                            <select data-key="sampleSize" className="media-setting" defaultValue={queryString.sampleSize || "16"}>
+                            <select data-key="sampleSize" className="media-setting" defaultValue={queryString.sampleSize || "16"} onChange={handleCheckNext}>
                                 <option value="8">8</option>
                                 <option value="16">16</option>
                                 <option value="24">24</option>
                                 <option value="32">32</option>
                             </select>
+                            <input type="checkbox" className="media-setting" data-override="sampleSize" data-key="sampleSize" defaultChecked={!!queryString.sampleSize} />
 
                         </div>
 
@@ -139,25 +160,28 @@ const MediaSettingsPanel = () => {
                             <br />
 
                             <label htmlFor="video-width">Width </label>
-                            <input type="number" className="media-setting" data-key="width" step="1" min="10" max="9999" defaultValue={queryString.width || "852"} />
-                            {/* <input type="checkbox" className="media-setting" data-key="override-width" defaultChecked={!!queryString.width} /> */}
+                            <input type="number" className="media-setting" data-key="width" step="1" min="10" max="9999" defaultValue={queryString.width || "852"} onChange={handleCheckNext} />
+                            <input type="checkbox" className="media-setting" data-override="width" data-key="width" defaultChecked={!!queryString.width} />
                             <br />
 
                             <label htmlFor="video-height">Height </label>
-                            <input type="number" className="media-setting" data-key="height" step="1" min="10" max="9999" defaultValue={queryString.height || "480"} />
-                            
+                            <input type="number" className="media-setting" data-key="height" step="1" min="10" max="9999" defaultValue={queryString.height || "480"} onChange={handleCheckNext} />
+                            <input type="checkbox" className="media-setting" data-override="height" data-key="height" defaultChecked={!!queryString.height} />
+
                             <br />
 
-                            <label htmlFor="video-height">Frame Rate </label>
-                            <input type="number" className="media-setting" data-key="frameRate" step="1" min="1" max="99" defaultValue={queryString.frameRate || "30"} />
-                            
-                            <br/>
+                            <label>Frame Rate </label>
+                            <input type="number" className="media-setting" data-key="frameRate" step="1" min="1" max="99" defaultValue={queryString.frameRate || "30"} onChange={handleCheckNext}/>
+                            <input type="checkbox" className="media-setting" data-override="frameRate" data-key="frameRate" defaultChecked={!!queryString.frameRate} />
 
-                            <label htmlFor="video-height">Resize Mode </label>
-                            <select data-key="resizeMode" className="media-setting" defaultValue={queryString.resizeMode || "crop-and-scale"}>
+                            <br />
+
+                            <label>Resize Mode </label>
+                            <select data-key="resizeMode" className="media-setting" defaultValue={queryString.resizeMode || "crop-and-scale"} onChange={handleCheckNext}>
                                 <option value="none">None</option>
                                 <option value="crop-and-scale">crop and scale</option>
                             </select>
+                            <input type="checkbox" className="media-setting" data-override="resizeMode" data-key="resizeMode" defaultChecked={!!queryString.resizeMode} />
                         </div>
 
                     </>
