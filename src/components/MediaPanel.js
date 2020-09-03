@@ -136,7 +136,8 @@ const MediaPanel = () => {
 
 
                 video.srcObject = stream;
-                video.volume = 0; // allows for the gain node to take over the output gain
+                // video.volume = 0; // allows for the gain node to take over the output gain
+                video.muted = true
                 video.controls = "controls"
 
                 // gainSlider.value = stream.id === state.localStreamID ? 0 : 1
