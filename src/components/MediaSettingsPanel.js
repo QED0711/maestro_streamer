@@ -7,6 +7,7 @@ import { mainContext } from '../state/main/mainProvider';
 
 // ======================= HELPERS =======================
 import parseQueryString from '../helpers/parseQueryString';
+import { renderIntoDocument } from 'react-dom/test-utils';
 
 const MediaSettingsPanel = () => {
 
@@ -62,7 +63,21 @@ const MediaSettingsPanel = () => {
 
     }
 
+    const renderShowVideoButtons = hiddenVideos => {
+        const btns = []
+        for(let [key, val] of Object.entries(hiddenVideos)){
+            btns.push(
+                <button key={key} onClick={handleShowVideoButtonClick(key)}>Show {val}</button>
+            )
+        }
+        return btns
+    }
+
     // EVENTS
+    const handleShowVideoButtonClick = streamID => e => {
+        setters.showHiddenVideo(streamID)
+    }
+
     const handleChange = e => {
         setShowApplyButton(true)
 
@@ -182,6 +197,10 @@ const MediaSettingsPanel = () => {
                                 <option value="crop-and-scale">crop and scale</option>
                             </select>
                             <input type="checkbox" className="media-setting" data-override="resizeMode" data-key="resizeMode" defaultChecked={!!queryString.resizeMode} />
+                        </div>
+
+                        <div>
+                            {renderShowVideoButtons(state.hiddenVideos)}
                         </div>
 
                     </>

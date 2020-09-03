@@ -23,17 +23,24 @@ const MediaPanel = () => {
         setMasterGainLevel(e.target.value)
     }
 
+    const handleHideClick = streamID => e => {
+        const name = document.getElementById(`name-${streamID}`).innerText
+        setters.appendHiddenVideo(streamID, name)
+    }
+
     // HELPERS
     const renderVideos = (streams) => {
 
 
         return streams.map(stream => {
             return (
-                <div className="video-container" key={stream.id} id={stream.id}>
+                <div
+                    className={`video-container video-container-hidden-${stream.id in state.hiddenVideos}`}
+                    key={stream.id}
+                    id={stream.id}
 
-                    {/* <p>{stream.id}</p> */}
-
-                    <h3 className="video-header user-name">
+                >
+                    <h3 id={`name-${stream.id}`} className="video-header user-name" onClick={handleHideClick(stream.id)}>
                         {
                             state.localStreamID === stream.id
                                 ? queryParams.name
@@ -67,13 +74,13 @@ const MediaPanel = () => {
 
     useEffect(() => {
         const addStreamsToVideos = () => {
-            let video, 
-                gainSlider, 
-                source, 
-                gainNode, 
+            let video,
+                gainSlider,
+                source,
+                gainNode,
                 muteButton,
-                preMeter, 
-                postMeter, 
+                preMeter,
+                postMeter,
                 preMeterNode,
                 postMeterNode;
 
@@ -85,16 +92,16 @@ const MediaPanel = () => {
 
                 // preMeter = document.getElementById(`pre-meter-${stream.id}`)
                 // postMeter = document.getElementById(`post-meter-${stream.id}`)
-                
+
                 // if we have added events listeners to any of the elements retrieved above, then they have already been created and we should bail out early
                 if (!video.paused || muteButton.onclick) return // break out early
-                
+
 
                 try {
                     // source = state.audioContext.createMediaElementSource(video)
                     source = state.audioContext.createMediaStreamSource(stream)
                     gainNode = state.audioContext.createGain()
-                    
+
                     // preMeterNode = webAudioPeakMeter.createMeterNode(source, state.audioContext)
                     // postMeterNode = webAudioPeakMeter.createMeterNode(gainNode, state.audioContext)
 
@@ -105,7 +112,7 @@ const MediaPanel = () => {
                     // if there was an error here, it is because we already connected the video to an output source
                     return
                 }
-                
+
                 source.connect(gainNode)
                 gainNode.connect(state.masterGain)
 
@@ -122,9 +129,9 @@ const MediaPanel = () => {
                     gainNode.gain.value = parseFloat(e.target.value)
                 }
 
-                muteButton.onclick = function(e) {
+                muteButton.onclick = function (e) {
                     gainSlider.disabled = !gainSlider.disabled
-                    if(gainSlider.disabled) {
+                    if (gainSlider.disabled) {
                         gainNode.gain.value = 0
                         this.innerText = "Unmute"
                     } else {
@@ -158,10 +165,10 @@ const MediaPanel = () => {
         addStreamsToVideos()
 
         // INIT MASTER GAIN METER
-        if(initMasterGainMeter && state.masterGain){
+        if (initMasterGainMeter && state.masterGain) {
 
             const masterMeter = document.getElementById("master-gain-meter")
-            const masterGainMeterNode = webAudioPeakMeter.createMeterNode(state.masterGain, state.audioContext) 
+            const masterGainMeterNode = webAudioPeakMeter.createMeterNode(state.masterGain, state.audioContext)
             webAudioPeakMeter.createMeter(masterMeter, masterGainMeterNode)
 
             setInitMasterGainMeter(false) // so we don't redo on each new stream

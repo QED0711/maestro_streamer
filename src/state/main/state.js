@@ -16,6 +16,8 @@ const state = {
     streams: [],
     streamsData: {},
 
+    hiddenVideos: {},
+
     showIDs: false,
 
     chat: []

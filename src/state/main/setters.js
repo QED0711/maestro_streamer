@@ -82,6 +82,24 @@ const setters = {
         this.setStateMaster(prevState => {
             return {ring: !prevState.ring}
         })
+    },
+
+    appendHiddenVideo(streamID, name){
+        this.setStateMaster(prevState => {
+            const hiddenVideos = {...prevState.hiddenVideos}
+            if(!(streamID in hiddenVideos)) hiddenVideos[streamID] = name
+
+            return {hiddenVideos}
+        })
+    },
+
+    showHiddenVideo(streamID) {
+        this.setStateMaster(prevState => {
+            let hiddenVideos = {...prevState.hiddenVideos}
+            delete hiddenVideos[streamID]
+
+            return {hiddenVideos}
+        })
     }
 
 }
