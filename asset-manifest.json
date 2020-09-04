@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/maestro_streamer/static/css/main.de3cc831.chunk.css",
-    "main.js": "/maestro_streamer/static/js/main.341d90aa.chunk.js",
-    "main.js.map": "/maestro_streamer/static/js/main.341d90aa.chunk.js.map",
+    "main.css": "/maestro_streamer/static/css/main.560e3553.chunk.css",
+    "main.js": "/maestro_streamer/static/js/main.9385eee5.chunk.js",
+    "main.js.map": "/maestro_streamer/static/js/main.9385eee5.chunk.js.map",
     "runtime-main.js": "/maestro_streamer/static/js/runtime-main.3b8297a5.js",
     "runtime-main.js.map": "/maestro_streamer/static/js/runtime-main.3b8297a5.js.map",
-    "static/js/2.9b6b29f0.chunk.js": "/maestro_streamer/static/js/2.9b6b29f0.chunk.js",
-    "static/js/2.9b6b29f0.chunk.js.map": "/maestro_streamer/static/js/2.9b6b29f0.chunk.js.map",
+    "static/js/2.8ececaae.chunk.js": "/maestro_streamer/static/js/2.8ececaae.chunk.js",
+    "static/js/2.8ececaae.chunk.js.map": "/maestro_streamer/static/js/2.8ececaae.chunk.js.map",
     "index.html": "/maestro_streamer/index.html",
-    "precache-manifest.96c0c7a4e88d10abc913e1cd62b0785a.js": "/maestro_streamer/precache-manifest.96c0c7a4e88d10abc913e1cd62b0785a.js",
+    "precache-manifest.b9513509ddba04274c27d9a18348afae.js": "/maestro_streamer/precache-manifest.b9513509ddba04274c27d9a18348afae.js",
     "service-worker.js": "/maestro_streamer/service-worker.js",
-    "static/css/main.de3cc831.chunk.css.map": "/maestro_streamer/static/css/main.de3cc831.chunk.css.map",
-    "static/js/2.9b6b29f0.chunk.js.LICENSE.txt": "/maestro_streamer/static/js/2.9b6b29f0.chunk.js.LICENSE.txt",
+    "static/css/main.560e3553.chunk.css.map": "/maestro_streamer/static/css/main.560e3553.chunk.css.map",
+    "static/js/2.8ececaae.chunk.js.LICENSE.txt": "/maestro_streamer/static/js/2.8ececaae.chunk.js.LICENSE.txt",
     "static/media/close.svg": "/maestro_streamer/static/media/close.98fdc312.svg",
     "static/media/logo.svg": "/maestro_streamer/static/media/logo.5d5d9eef.svg",
     "static/media/menu.svg": "/maestro_streamer/static/media/menu.55f68494.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.3b8297a5.js",
-    "static/js/2.9b6b29f0.chunk.js",
-    "static/css/main.de3cc831.chunk.css",
-    "static/js/main.341d90aa.chunk.js"
+    "static/js/2.8ececaae.chunk.js",
+    "static/css/main.560e3553.chunk.css",
+    "static/js/main.9385eee5.chunk.js"
   ]
 }

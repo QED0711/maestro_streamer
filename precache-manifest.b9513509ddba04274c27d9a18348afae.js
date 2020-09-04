@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e903aadb2106da9906cb05d19d9c7922",
+    "revision": "44ee9feb83b87cecc77dc8b7016ac626",
     "url": "/maestro_streamer/index.html"
   },
   {
-    "revision": "a9a615052766314b1b20",
-    "url": "/maestro_streamer/static/css/main.de3cc831.chunk.css"
+    "revision": "a45a3eeaf241b7b50693",
+    "url": "/maestro_streamer/static/css/main.560e3553.chunk.css"
   },
   {
-    "revision": "0ecd622ee9445470987a",
-    "url": "/maestro_streamer/static/js/2.9b6b29f0.chunk.js"
+    "revision": "1480b3cf305f1ff45e40",
+    "url": "/maestro_streamer/static/js/2.8ececaae.chunk.js"
   },
   {
     "revision": "06d37f54fcda98f36f149637e2d89607",
-    "url": "/maestro_streamer/static/js/2.9b6b29f0.chunk.js.LICENSE.txt"
+    "url": "/maestro_streamer/static/js/2.8ececaae.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a9a615052766314b1b20",
-    "url": "/maestro_streamer/static/js/main.341d90aa.chunk.js"
+    "revision": "a45a3eeaf241b7b50693",
+    "url": "/maestro_streamer/static/js/main.9385eee5.chunk.js"
   },
   {
     "revision": "c8094bb3dea95227f70e",
