@@ -100,6 +100,21 @@ const setters = {
 
             return {hiddenVideos}
         })
+    },
+
+    setStreamOrder(streamOrder){
+        this.setStateMaster(prevState => {
+            let streams = []
+
+            for(let position of streamOrder){
+                // iter through the new order, finding the associated stream each time and pushing that to the newly ordered streams
+                streams.push(prevState.streams.find(stream => stream.id === position[1]))
+            }
+
+            console.log({streams})
+
+            return {streams}
+        })
     }
 
 }

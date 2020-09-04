@@ -16,7 +16,7 @@ const MediaSettingsContainer = () => {
     }
 
     return (
-        <div style={{ textAlign: "left" }}>
+        <div id="media-settings-container">
             <div onClick={handleClick} style={{ cursor: "pointer", display: "inline-block" }}>
                 {
                     showSettingsPanel

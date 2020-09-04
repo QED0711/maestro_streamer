@@ -8,6 +8,7 @@ import { mainContext } from '../state/main/mainProvider';
 // ======================= HELPERS =======================
 import parseQueryString from '../helpers/parseQueryString';
 import { renderIntoDocument } from 'react-dom/test-utils';
+import ReorderPanel from './ReorderPanel';
 
 const MediaSettingsPanel = () => {
 
@@ -41,10 +42,10 @@ const MediaSettingsPanel = () => {
             //     continue
             // }
 
-            if(override !== undefined){
-                if(!value){ // if override was specified and it is false, delete the key
+            if (override !== undefined) {
+                if (!value) { // if override was specified and it is false, delete the key
                     delete settingsObj[key]
-                } 
+                }
                 continue
             }
 
@@ -52,9 +53,9 @@ const MediaSettingsPanel = () => {
 
 
         }
-        
+
         let updatedString = ""
-        for(let [key, val] of Object.entries(settingsObj)){
+        for (let [key, val] of Object.entries(settingsObj)) {
             updatedString += `${key}=${val}&`
 
         }
@@ -65,7 +66,7 @@ const MediaSettingsPanel = () => {
 
     const renderShowVideoButtons = hiddenVideos => {
         const btns = []
-        for(let [key, val] of Object.entries(hiddenVideos)){
+        for (let [key, val] of Object.entries(hiddenVideos)) {
             btns.push(
                 <button key={key} onClick={handleShowVideoButtonClick(key)}>Show {val}</button>
             )
@@ -186,7 +187,7 @@ const MediaSettingsPanel = () => {
                             <br />
 
                             <label>Frame Rate </label>
-                            <input type="number" className="media-setting" data-key="frameRate" step="1" min="1" max="99" defaultValue={queryString.frameRate || "30"} onChange={handleCheckNext}/>
+                            <input type="number" className="media-setting" data-key="frameRate" step="1" min="1" max="99" defaultValue={queryString.frameRate || "30"} onChange={handleCheckNext} />
                             <input type="checkbox" className="media-setting" data-override="frameRate" data-key="frameRate" defaultChecked={!!queryString.frameRate} />
 
                             <br />
@@ -199,14 +200,24 @@ const MediaSettingsPanel = () => {
                             <input type="checkbox" className="media-setting" data-override="resizeMode" data-key="resizeMode" defaultChecked={!!queryString.resizeMode} />
                         </div>
 
-                        <div>
-                            {renderShowVideoButtons(state.hiddenVideos)}
-                        </div>
 
                     </>
                 }
             </div>
             {showApplyButton && <a href={`${window.location.href.split("?")[0]}?${modifiedQueryString}`}>Apply</a>}
+            <hr />
+            {
+                !!Object.keys(state.hiddenVideos).length
+                &&
+                <>
+                    <div>
+                        <h4>Hidden Streams</h4>
+                        {renderShowVideoButtons(state.hiddenVideos)}
+                    </div>
+                    <hr />
+                </>
+            }
+            <ReorderPanel />
         </>
     )
 
