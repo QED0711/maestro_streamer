@@ -64,6 +64,7 @@ const ChatBox = () => {
         if(!/\w{1,}/.test(value)) return // user must type at least 1 character to submit
 
         const chatMessage = { name: queryParams.name || "anonymous", message: value }
+        
         socket.emit("chat-message", chatMessage)
 
 

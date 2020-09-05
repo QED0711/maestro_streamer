@@ -55,7 +55,7 @@ const ConnectionManager = () => {
             setters.setUserID(id)
             // console.log({ id, peer })
             // console.log("PEER OPENING")
-            socket.emit("join-session", { sessionID, userID: id, part: "PART STAND-IN" })
+            socket.emit("join-session", { sessionID, userID: id})
         })
 
 
@@ -196,7 +196,8 @@ const ConnectionManager = () => {
         */
 
         socket.on("message-received", ({name, message}) => {
-            setters.appendChatMessage({name, message, self: false, time: Date.now()})
+            // in the event that the user has two chats open, we check the `self` property by checking the name
+            setters.appendChatMessage({name, message, self: name === queryParams.name, time: Date.now()})
         })
         
 

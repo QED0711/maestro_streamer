@@ -10,6 +10,7 @@ import ChatBox from './components/ChatBox';
 import MediaSettingsPanel from './components/MediaSettingsPanel';
 import MediaSettingsContainer from './components/MediaSettingsContainer';
 import { mainContext } from './state/main/mainProvider';
+import ChatConnectionManager from './components/ChatConnectionManager';
 
 
 function App() {
@@ -43,8 +44,13 @@ function App() {
                         <ConnectionManager />
                         <ConfigPanel />
                         <SessionWindow />
-                        <ChatBox />
                         <MediaSettingsContainer />
+                        <ChatBox />
+                    </Route>
+                    
+                    <Route exact path="/chat/:sessionID">
+                        <ChatConnectionManager />
+                        <ChatBox/>
                     </Route>
                 </Switch>
             </div>
