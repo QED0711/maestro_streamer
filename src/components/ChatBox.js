@@ -117,8 +117,9 @@ const ChatBox = () => {
                 // if we're not already in the chat window
                 !(/\/chat\//.test(window.location.href))
                 &&
-                <a href={`/chat/${sessionID}?name=${queryParams.name}`} target="_blank">Open Chat in new Window</a>
+                <a href={`${process.env.NODE_ENV === "production" ? "/maestro_streamer" : ""}/chat/${sessionID}?name=${queryParams.name || "anonymous"}`} target="_blank">Open Chat in new Window</a>
             }
+            {console.log(process.env.NODE_ENV)}
         </div>
     )
 
