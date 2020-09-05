@@ -3,6 +3,7 @@ import "../css/chat-box.css"
 
 // ======================== STATE ========================
 import { mainContext } from '../state/main/mainProvider';
+import { useParams } from 'react-router-dom';
 
 // ======================== HELPERS ========================
 import socket from '../helpers/socket'
@@ -14,6 +15,7 @@ const ChatBox = () => {
     
     const [isScrolledToBottom, setIsScrolledToBottom] = useState(true)
     const queryParams = parseQueryString(window.location.search);
+    const {sessionID} = useParams()
 
     
     const messageContainer = useRef(null);
@@ -64,7 +66,7 @@ const ChatBox = () => {
         if(!/\w{1,}/.test(value)) return // user must type at least 1 character to submit
 
         const chatMessage = { name: queryParams.name || "anonymous", message: value }
-        
+
         socket.emit("chat-message", chatMessage)
 
 
@@ -108,9 +110,15 @@ const ChatBox = () => {
 
             <form id="chat-box-form" onSubmit={handleSubmit} ref={formRef}>
                 {/* <input type="text" /> */}
-                <textarea onKeyDown={handleTextareaKey}></textarea>
+                <textarea onKeyDown={handleTextareaKey} placeholder="Your message here..."></textarea>
             </form>
 
+            {
+                // if we're not already in the chat window
+                !(/\/chat\//.test(window.location.href))
+                &&
+                <a href={`/chat/${sessionID}?name=${queryParams.name}`} target="_blank">Open Chat in new Window</a>
+            }
         </div>
     )
 
