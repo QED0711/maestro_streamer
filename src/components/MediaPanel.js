@@ -56,15 +56,17 @@ const MediaPanel = () => {
                         }
                     </h4>
                     <video id={`video-${stream.id}`}></video>
-                    {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
-                    {/* <div className="meters">
+                    <div className="controls-container">
+                        {state.showIDs && <em><sub className="sub-id">{stream.id}</sub></em>}
+                        {/* <div className="meters">
                         <div id={`pre-meter-${stream.id}`} className="peak-meter"></div>
                         <div id={`post-meter-${stream.id}`} className="peak-meter"></div>
 
                     </div> */}
 
-                    <input id={`gain-${stream.id}`} className="stream-gain" type="range" min="0" max="1" step="0.01" /* onChange={handleGainChange(streamObj.gainNode)} */ />
-                    <button id={`mute-btn-${stream.id}`}>Mute</button>
+                        <input id={`gain-${stream.id}`} className="stream-gain" type="range" min="0" max="1" step="0.01" /* onChange={handleGainChange(streamObj.gainNode)} */ />
+                        <button id={`mute-btn-${stream.id}`} className="mute-btn mute-btn-unmuted"></button>
+                    </div>
                 </div>
             )
         })
@@ -120,7 +122,8 @@ const MediaPanel = () => {
                 if (stream.id === state.localStreamID) {
                     gainNode.gain.value = 0
                     gainSlider.disabled = true
-                    muteButton.innerText = "Unmute"
+                    // muteButton.innerText = "Unmute"
+                    muteButton.className = "mute-btn mute-btn-muted"
                 }
 
 
@@ -133,11 +136,13 @@ const MediaPanel = () => {
                     gainSlider.disabled = !gainSlider.disabled
                     if (gainSlider.disabled) {
                         gainNode.gain.value = 0
-                        this.innerText = "Unmute"
+                        // this.innerText = "Unmute"
+                        muteButton.className = "mute-btn mute-btn-muted"
                     } else {
                         const value = document.getElementById(`gain-${stream.id}`).value
                         gainNode.gain.value = value
-                        this.innerText = "Mute"
+                        muteButton.className = "mute-btn mute-btn-unmuted"
+                        // this.innerText = "Mute"
                     }
                 }
 
