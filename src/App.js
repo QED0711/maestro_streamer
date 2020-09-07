@@ -42,8 +42,8 @@ function App() {
 
                     <Route exact path="/session/:sessionID">
                         <ConnectionManager />
-                        <ConfigPanel />
                         <SessionWindow />
+                        <ConfigPanel />
                         <MediaSettingsContainer />
                         <ChatBox />
                     </Route>

@@ -36,9 +36,14 @@ const MediaPanel = () => {
             return (
                 <div
                     className={`video-container video-container-hidden-${stream.id in state.hiddenVideos}`}
-                    key={stream.id}
                     id={stream.id}
-
+                    key={stream.id}
+                    style={{ 
+                        maxWidth: `calc(${Math.round((1 / state.videosPerRow) * 100)}% - 1rem)`,
+                        maxHeight: state.streams.length % state.videosPerRow === 0
+                            ? `calc(${100 / (state.streams.length / state.videosPerRow)}vh - 1rem)`
+                            : `calc(${100 / (Math.floor(state.streams.length / state.videosPerRow) + 1)}vh) - 1rem`
+                    }}
                 >
                     <h3 id={`name-${stream.id}`} className="video-header user-name" onClick={handleHideClick(stream.id)}>
                         {
@@ -184,14 +189,14 @@ const MediaPanel = () => {
 
     return (
         <>
+            <div id="media-panel">
+                {renderVideos(state.streams)}
+            </div>
             <div className="master-gain-container">
                 <label htmlFor="master-gain">Master Gain: {masterGainLevel}</label>
                 <br />
                 <input id="master-gain" type="range" min="0" max="1" step="0.01" onChange={handleMasterGainChange} />
                 <div id="master-gain-meter"></div>
-            </div>
-            <div id="media-panel">
-                {renderVideos(state.streams)}
             </div>
         </>
     )

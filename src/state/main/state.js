@@ -16,6 +16,7 @@ const state = {
     streams: [],
     streamsData: {},
 
+    videosPerRow: 4,
     hiddenVideos: {},
 
     showIDs: false,

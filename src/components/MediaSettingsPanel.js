@@ -9,6 +9,7 @@ import { mainContext } from '../state/main/mainProvider';
 import parseQueryString from '../helpers/parseQueryString';
 import { renderIntoDocument } from 'react-dom/test-utils';
 import ReorderPanel from './ReorderPanel';
+import VideoRowSettings from './VideoRowSettings';
 
 const MediaSettingsPanel = () => {
 
@@ -217,6 +218,7 @@ const MediaSettingsPanel = () => {
                     <hr />
                 </>
             }
+            <VideoRowSettings />
             <ReorderPanel />
         </>
     )
