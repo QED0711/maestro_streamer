@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/maestro_streamer/precache-manifest.6494e52292d996d44365b5d75f6f0411.js"
+  "/maestro_streamer/precache-manifest.9f6e5bea86caec8019b6a1733db95aa3.js"
 );
 
 self.addEventListener('message', (event) => {
