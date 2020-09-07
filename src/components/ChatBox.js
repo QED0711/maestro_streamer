@@ -52,15 +52,14 @@ const ChatBox = () => {
         })
     }
 
-    // EVENTS
-    const handleSubmit = e => {
+    
+    const submitMessage = element => {
         console.log("SUBMITTING")
-        e.preventDefault()
+        // e.preventDefault()
 
-        const textElement = e.target.firstChild
+        const value = element.value
 
-        const value = textElement.value
-        textElement.value = ""
+        element.value = ""
 
 
         if(!/\w{1,}/.test(value)) return // user must type at least 1 character to submit
@@ -74,10 +73,11 @@ const ChatBox = () => {
 
     }
 
+    // EVENTS
     const handleTextareaKey = e => {
         if(e.keyCode === 13 && !e.shiftKey){
             e.preventDefault()
-            formRef.current.dispatchEvent(new Event("submit"))
+            submitMessage(e.target)
         }
     }
 
@@ -108,10 +108,9 @@ const ChatBox = () => {
                 {renderChat(state.chat)}
             </div>
 
-            <form id="chat-box-form" onSubmit={handleSubmit} ref={formRef}>
-                {/* <input type="text" /> */}
+            <div id="chat-box-entry-field">
                 <textarea onKeyDown={handleTextareaKey} placeholder="Your message here..."></textarea>
-            </form>
+            </div>
 
             {
                 // if we're not already in the chat window

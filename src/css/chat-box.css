@@ -22,12 +22,12 @@
     box-sizing: border-box;
 }
 
-#chat-box-form{
+#chat-box-entry-field{
     width: var(--chat-width);
     margin: 0 auto;
 }
 
-#chat-box-form textarea{
+#chat-box-entry-field textarea{
     width: 99%;
     height: 5rem;
     resize: none;
